@@ -44,6 +44,8 @@ def test_pictures_json_is_not_empty(client):
 
 def test_post_picture(picture, client):
     # create a brand new picture to upload
+    # print(f"Testing post picture with data: {picture}")
+    print(f" {picture}")
     res = client.post("/picture", data=json.dumps(picture),
                       content_type="application/json")
     assert res.status_code == 201
@@ -53,11 +55,15 @@ def test_post_picture(picture, client):
     assert res.json['length'] == 11
 
 def test_post_picture_duplicate(picture, client):
+    # print(f"Testing post picture with duplicate data: {picture}")
+    print(f" {picture}")
     # create a brand new picture to upload
     res = client.post("/picture", data=json.dumps(picture),
                       content_type="application/json")
+    # assert res.status_code == 409 #not 302
     assert res.status_code == 302
     assert res.json['Message'] == f"picture with id {picture['id']} already present"
+    
 
 def test_update_picture_by_id(client, picture):
     id = '2'
